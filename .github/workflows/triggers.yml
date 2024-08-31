@@ -1,0 +1,60 @@
+name: Triggers
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.js'
+  issues:
+    type:
+      - labeled
+  workflow_dispatch:
+    inputs:
+      lenguaje_favorito:
+        description: 'Lenguaje Favorito'
+        required: true
+        default: Go
+        type: choice
+        options:
+        - Python
+        - Javascript
+        - Go
+      nombre:
+        description: 'Tu Nombre'
+        required: true
+        default: User
+        type: string
+
+  shedule:
+    - cron: '*/5  * * * *'
+
+jobs:
+  hola-mundo-manual:
+    runs_on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Definir Nombre
+        run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
+      - name: Definir Lenguaje
+        run: echo "LANGUAGE=${{ inputs.lenguaje_favorito }}" >> $GITHUB_ENV
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Run index
+        run: node index.js
+  hola-mundo:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    runs_on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Definir Variable
+        run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Run index
+        run: node index.js
