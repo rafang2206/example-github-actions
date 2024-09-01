@@ -40,7 +40,7 @@ jobs:
         run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
       - name: Definir Lenguaje
         run: echo "LANGUAGE=${{ inputs.lenguaje_favorito }}" >> $GITHUB_ENV
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Run index
@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Definir Variable
         run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Run index
